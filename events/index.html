@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>桨刻龙舟赛事 · 首页</title>
+    <meta
+      name="description"
+      content="桨刻龙舟公开赛：报名参赛、查看赛程、成绩与队伍信息。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./index.html" aria-label="返回首页">桨刻</a>
+        <nav class="nav">
+          <a href="./signup.html">报名</a>
+          <a href="./schedule.html">赛程</a>
+          <a href="./results.html">成绩</a>
+          <a href="./teams.html">队伍</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section
+        class="hero"
+        style="
+          padding: 48px 0;
+          border-bottom: 1px solid var(--border);
+          background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.02),
+            rgba(255, 255, 255, 0)
+          );
+        "
+      >
+        <div class="container" style="display: grid; gap: 14px">
+          <h1 style="margin: 0; font-size: 32px; line-height: 1.2">
+            桨刻龙舟公开赛
+          </h1>
+          <p class="muted" style="margin: 0">
+            聚力同划，乘风破浪。在线报名、查看赛程与成绩，快速了解参赛队伍。
+          </p>
+          <div
+            style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 6px"
+          >
+            <a class="btn primary" href="./signup.html">立即报名</a>
+            <a class="btn" href="./schedule.html">查看赛程</a>
+            <a class="btn" href="./results.html">查看成绩</a>
+            <a class="btn" href="./teams.html">查看队伍</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="container card">
+        <h2>最新赛事</h2>
+        <div id="latest-events" class="list">
+          <!-- app.js 可选动态渲染；此处提供静态回退 -->
+          <div class="team-card">
+            <div class="team-logo" aria-hidden="true">25</div>
+            <div>
+              <strong>2025 桨刻龙舟公开赛</strong>
+              <div class="muted" style="margin-top: 4px">苏州 · 2025-05-01</div>
+            </div>
+          </div>
+          <div class="team-card">
+            <div class="team-logo" aria-hidden="true">24</div>
+            <div>
+              <strong>2024 桨刻龙舟公开赛</strong>
+              <div class="muted" style="margin-top: 4px">苏州 · 2024-05-01</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container card">
+        <h2>关于赛事</h2>
+        <p style="margin: 8px 0 0">
+          桨刻龙舟公开赛面向全国龙舟俱乐部与高校社团开放，设置男子、女子、混合等多个组别，包含
+          200m 与 500m 等项目。 我们致力于提供公开、透明与高效的赛事体验。
+        </p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© 桨刻 · 龙舟赛事</p>
+      </div>
+    </footer>
+
+    <script src="./app.js"></script>
+    <script>
+      // 轻量增强：从数据源渲染“最新赛事”
+      (async function () {
+        try {
+          const base = (function () {
+            const script = document.currentScript?.src || "";
+            const url = new URL(script, location.href);
+            return url.pathname.replace(/\/index\.html.*$/, "");
+          })();
+          const res = await fetch(base + "/assets/data.json");
+          if (!res.ok) return;
+          const data = await res.json();
+          const wrap = document.getElementById("latest-events");
+          if (!wrap) return;
+          wrap.innerHTML = (data.events || [])
+            .slice(0, 2)
+            .map(
+              (e) => `
+            <div class="team-card">
+              <div class="team-logo" aria-hidden="true">${String(
+                new Date(e.date).getFullYear()
+              ).slice(-2)}</div>
+              <div>
+                <strong>${e.name}</strong>
+                <div class="muted" style="margin-top:4px">${
+                  e.city || "未知城市"
+                } · ${e.date}</div>
+              </div>
+            </div>
+          `
+            )
+            .join("");
+        } catch (e) {
+          /* 静默失败，保留静态回退 */
+        }
+      })();
+    </script>
+  </body>
+</html>

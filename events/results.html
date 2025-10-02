@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>成绩 · 桨刻龙舟赛事</title>
+    <meta
+      name="description"
+      content="查询桨刻龙舟赛事各项目的比赛成绩与排名。"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./index.html" aria-label="返回首页">桨刻</a>
+        <nav class="nav">
+          <a href="./signup.html">报名</a>
+          <a href="./schedule.html">赛程</a>
+          <a class="active" href="./results.html">成绩</a>
+          <a href="./teams.html">队伍</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="page-header">
+        <h1>成绩查询</h1>
+        <p>按赛事、组别与队伍快速检索，支持导出。</p>
+      </section>
+
+      <section class="card">
+        <h2>筛选</h2>
+        <form id="results-filter" class="filters" role="search">
+          <div class="form-row">
+            <label for="event-select">赛事</label>
+            <select id="event-select" name="event">
+              <!-- app.js 从 ./assets/data.json 的 events/schedule 提取 -->
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="group-select">组别</label>
+            <select id="group-select" name="group">
+              <!-- app.js 根据赛事填充 -->
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="team-select">队伍</label>
+            <select id="team-select" name="team">
+              <!-- app.js 根据赛事/组别填充 -->
+            </select>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn" type="reset">重置</button>
+            <button class="btn" id="export-btn" type="button">导出 CSV</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>成绩列表</h2>
+        <div id="results-table-wrap" class="table-wrap">
+          <table class="table" aria-describedby="results-caption">
+            <caption id="results-caption" class="sr-only">
+              比赛成绩表
+            </caption>
+            <thead>
+              <tr>
+                <th scope="col">名次</th>
+                <th scope="col">队伍</th>
+                <th scope="col">组别</th>
+                <th scope="col">轮次</th>
+                <th scope="col">成绩</th>
+                <th scope="col">差距</th>
+              </tr>
+            </thead>
+            <tbody id="results-tbody">
+              <!-- app.js 渲染成绩行；空状态占位 -->
+            </tbody>
+          </table>
+          <p id="results-empty" class="empty" hidden>暂无成绩</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© 桨刻 · 龙舟赛事</p>
+      </div>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

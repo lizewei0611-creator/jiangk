@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>控制台 · 桨刻</title>
+    <meta
+      name="description"
+      content="桨刻控制台占位页，后续接入账号与赛事管理后台。"
+    />
+    <!-- 可选外链样式：若没有此文件可删，不影响内联样式 -->
+    <link rel="stylesheet" href="../events/styles.css" />
+    <style>
+      :root {
+        --bg-start: #0f172a;
+        --bg-end: #1e293b;
+        --text: #e5e7eb;
+        --muted: #94a3b8;
+        --primary: #22d3ee;
+        --primary-2: #60a5fa;
+        --accent: #67e8f9;
+        --card: rgba(255, 255, 255, 0.06);
+        --border: rgba(148, 163, 184, 0.18);
+        --radius: 14px;
+        --ok: #34d399;
+        --warn: #fbbf24;
+        --danger: #fb7185;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        color: var(--text);
+        font: 15px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue",
+          Arial, sans-serif;
+        background: radial-gradient(
+            1200px 800px at 15% -10%,
+            rgba(14, 165, 233, 0.25) 0%,
+            transparent 55%
+          ),
+          radial-gradient(
+            900px 600px at 115% 10%,
+            rgba(34, 211, 238, 0.22) 0%,
+            transparent 45%
+          ),
+          linear-gradient(180deg, var(--bg-start), var(--bg-end));
+        background-attachment: fixed;
+      }
+      /* 顶部栏 */
+      .topbar {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        letter-spacing: 0.4px;
+      }
+      .brand .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        box-shadow: 0 0 16px rgba(34, 211, 238, 0.6);
+      }
+      .nav a {
+        color: var(--muted);
+        text-decoration: none;
+        padding: 8px 10px;
+        border-radius: 10px;
+        transition: 0.2s;
+        margin-left: 8px;
+      }
+      .nav a:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.06);
+      }
+      /* 容器与分区 */
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 24px 20px 48px;
+      }
+      .page-title {
+        margin: 8px 0 6px;
+        font-size: 26px;
+      }
+      .page-sub {
+        color: var(--muted);
+        margin: 0 0 20px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 16px;
+      }
+      .panel {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px;
+        backdrop-filter: blur(6px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24),
+          inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      }
+      .panel h2 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+      /* 快捷功能卡片 */
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.06),
+          rgba(255, 255, 255, 0.03)
+        );
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px;
+        transition: 0.18s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .card:before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          280px 120px at -10% -20%,
+          rgba(34, 211, 238, 0.18),
+          transparent 40%
+        );
+        opacity: 0.6;
+        pointer-events: none;
+      }
+      .card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.28);
+      }
+      .card .emoji {
+        font-size: 20px;
+        opacity: 0.9;
+      }
+      .card h3 {
+        margin: 8px 0 6px;
+        font-size: 16px;
+      }
+      .card p {
+        margin: 0 0 12px;
+        color: var(--muted);
+      }
+      .btn {
+        display: inline-block;
+        text-decoration: none;
+        font-weight: 600;
+        border-radius: 12px;
+        padding: 9px 12px;
+        border: 1px solid var(--border);
+        background: linear-gradient(135deg, var(--primary), var(--primary-2));
+        color: #0b1220;
+        box-shadow: 0 8px 20px rgba(34, 211, 238, 0.25);
+        transition: 0.15s ease;
+      }
+      .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 26px rgba(34, 211, 238, 0.34);
+      }
+      .btn.secondary {
+        background: transparent;
+        color: var(--text);
+        box-shadow: none;
+      }
+      .btn.secondary:hover {
+        background: rgba(255, 255, 255, 0.06);
+      }
+      /* 侧栏列表 */
+      .list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 8px;
+      }
+      .item {
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 10px 12px;
+        background: rgba(255, 255, 255, 0.04);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .item .meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .badge {
+        font-size: 12px;
+        border-radius: 999px;
+        padding: 2px 8px;
+        border: 1px solid var(--border);
+        color: #0b1220;
+        background: #d1fae5;
+      }
+      .badge.warn {
+        background: #fef3c7;
+      }
+      .badge.danger {
+        background: #ffe4e6;
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 13px;
+      }
+      /* 自适应 */
+      @media (max-width: 1024px) {
+        .cards {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 640px) {
+        .cards {
+          grid-template-columns: 1fr;
+        }
+        .page-title {
+          font-size: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand"><span class="dot"></span>桨刻 · 控制台</div>
+      <nav class="nav">
+        <a href="../index.html">返回首页</a>
+        <a href="../events/index.html">赛事门户</a>
+        <a href="../create-event.html">创建赛事</a>
+      </nav>
+    </header>
+
+    <div class="wrap">
+      <h1 class="page-title">控制台（占位）</h1>
+      <p class="page-sub">
+        此处将接入登录、赛事列表与配置。当前为静态演示，协助先行发布与转化。
+      </p>
+
+      <div class="grid">
+        <!-- 左侧：主要功能 -->
+        <section class="panel">
+          <h2>快速开始</h2>
+          <div class="cards">
+            <div class="card">
+              <div class="emoji">🚀</div>
+              <h3>创建赛事</h3>
+              <p>填写基本信息，选择项目模板，生成赛事草稿。</p>
+              <a class="btn" href="../create-event.html">去创建</a>
+            </div>
+            <div class="card">
+              <div class="emoji">📣</div>
+              <h3>示例赛事门户</h3>
+              <p>查看公众视角的赛程、成绩与队伍页面。</p>
+              <a class="btn secondary" href="../events/index.html">查看示例</a>
+            </div>
+            <div class="card">
+              <div class="emoji">🧭</div>
+              <h3>对接指南</h3>
+              <p>支付、账号、计时设备对接的技术说明。</p>
+              <a class="btn secondary" href="mailto:tech@yourdomain.com"
+                >联系技术支持</a
+              >
+            </div>
+          </div>
+        </section>
+
+        <!-- 右侧：动态与常用 -->
+        <aside class="panel">
+          <h2>近期更新</h2>
+          <div class="list">
+            <div class="item">
+              <div class="meta">
+                <span>赛事模板库</span><span class="badge">New</span>
+              </div>
+              <span class="muted">支持一键导入龙舟/龙舟混合组</span>
+            </div>
+            <div class="item">
+              <div class="meta">
+                <span>离线兜底</span><span class="badge warn">Beta</span>
+              </div>
+              <span class="muted">弱网环境提升检录稳定性</span>
+            </div>
+            <div class="item">
+              <div class="meta">
+                <span>直播对接</span><span class="badge danger">Soon</span>
+              </div>
+              <span class="muted">与主流直播平台串流对接</span>
+            </div>
+          </div>
+
+          <h2 style="margin-top: 16px">常见操作</h2>
+          <div class="list">
+            <div class="item">
+              <div class="meta"><span>导入队伍</span></div>
+              <a class="btn secondary" href="../events/index.html">打开示例</a>
+            </div>
+            <div class="item">
+              <div class="meta"><span>下载模板</span></div>
+              <a class="btn secondary" href="#">即将上线</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </body>
+</html>

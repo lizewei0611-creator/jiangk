@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>赛程 · 桨刻龙舟赛事</title>
+    <meta name="description" content="查看桨刻龙舟赛事的详细赛程与分组对阵。" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container">
+        <a class="brand" href="./index.html" aria-label="返回首页">桨刻</a>
+        <nav class="nav">
+          <a href="./signup.html">报名</a>
+          <a class="active" href="./schedule.html">赛程</a>
+          <a href="./results.html">成绩</a>
+          <a href="./teams.html">队伍</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="page-header">
+        <h1>赛事赛程</h1>
+        <p>按日期与场地查看赛程安排，支持关键字筛选。</p>
+      </section>
+
+      <section class="card">
+        <h2>筛选</h2>
+        <form id="schedule-filter" class="filters" role="search">
+          <div class="form-row">
+            <label for="date-select">日期</label>
+            <select id="date-select" name="date">
+              <!-- 由 app.js 根据 ./assets/data.json 的 schedule 提取唯一日期填充 -->
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="venue-select">场地</label>
+            <select id="venue-select" name="venue">
+              <!-- 由 app.js 根据数据填充 -->
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="q">关键字</label>
+            <input
+              id="q"
+              name="q"
+              type="search"
+              placeholder="队伍名 / 组别 / 轮次"
+            />
+          </div>
+
+          <div class="form-actions">
+            <button class="btn" type="reset">重置</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>赛程列表</h2>
+        <div id="schedule-list" class="list">
+          <!-- app.js 渲染：按照日期分组输出，空状态占位 -->
+        </div>
+        <p id="schedule-empty" class="empty" hidden>暂无符合条件的赛程</p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>© 桨刻 · 龙舟赛事</p>
+      </div>
+    </footer>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
